@@ -1,8 +1,7 @@
-import type { SearchProvider, BaseParams } from "@search-sdk/core";
-import type { TavilyClient, TavilySearchOptions, TavilyClientOptions, TavilyExtractOptions, TavilyCrawlOptions } from "@tavily/core";
-import { tavily } from "@tavily/core"
-import type { ExtractProvider } from "@search-sdk/core";
-import type { CrawlProvider } from "@search-sdk/core";
+import { tavily, type TavilyClient } from "@tavily/core"
+import type { TavilySearchOptions, TavilyClientOptions, TavilyExtractOptions, TavilyCrawlOptions, } from "@tavily/core";
+import type { TavilySearchResponse, TavilyCrawlResponse, TavilyExtractResponse } from "@tavily/core";
+import type { ExtractProvider, SearchProvider, BaseParams, CrawlProvider } from "@search-sdk/core";
 
 
 
@@ -18,25 +17,25 @@ type ExtractParams = ExtractBaseParam & TavilyExtractOptions;
 type CrawlParams = CrawlBaseParam & TavilyCrawlOptions;
 
 
-export class TavilyProvider implements SearchProvider<TavilySearchParams, any>,
-    ExtractProvider<ExtractParams, any>,
-    CrawlProvider<CrawlParams, any> {
+export class TavilyProvider implements SearchProvider<TavilySearchParams, TavilySearchResponse>,
+    ExtractProvider<ExtractParams, TavilyExtractResponse>,
+    CrawlProvider<CrawlParams, TavilyCrawlResponse> {
 
     #client: TavilyClient;
     constructor(config: TavilyClientOptions) {
         this.#client = tavily(config)
     }
-    async search(params: TavilySearchParams): Promise<any> {
+    async search(params: TavilySearchParams): Promise<TavilySearchResponse> {
         const { query } = params;
         const response = await this.#client.search(query, params);
         return response;
     }
-    async extract(params: ExtractParams): Promise<any> {
+    async extract(params: ExtractParams): Promise<TavilyExtractResponse> {
         const { urls } = params;
         const response = await this.#client.extract(urls, params);
         return response;
     }
-    async crawl(params: CrawlParams): Promise<any> {
+    async crawl(params: CrawlParams): Promise<TavilyCrawlResponse> {
         const { url } = params;
         const response = await this.#client.crawl(url, params);
         return response;
