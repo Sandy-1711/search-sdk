@@ -167,6 +167,19 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
+  providers/duckduckgo:
+    dependencies:
+      '@search-sdk/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@search-sdk/typescript-config':
+        specifier: workspace:^
+        version: link:../../packages/typescript-config
+    devDependencies:
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
   providers/tavily:
     dependencies:
       '@search-sdk/core':

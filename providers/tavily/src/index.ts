@@ -1,6 +1,6 @@
 import { tavily, type TavilyClient } from "@tavily/core"
 import type { TavilySearchOptions, TavilyClientOptions, TavilyExtractOptions, TavilyCrawlOptions, TavilyResearchOptions } from "@tavily/core";
-import type { TavilySearchResponse, TavilyCrawlResponse, TavilyExtractResponse, TavilyResearchResponse } from "@tavily/core";
+import type { TavilySearchResponse, TavilyCrawlResponse, TavilyExtractResponse } from "@tavily/core";
 import type { ExtractProvider, SearchProvider, BaseParams, CrawlProvider, ResearchProvider } from "@search-sdk/core";
 
 
