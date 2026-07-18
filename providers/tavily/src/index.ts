@@ -1,14 +1,20 @@
-import { SearchProvider } from "@search-sdk/core";
-import { TavilyClient } from "@tavily/core";
+import type { SearchProvider, BaseParams } from "@search-sdk/core";
+import type { TavilyClient, TavilySearchOptions, TavilyClientOptions } from "@tavily/core";
+import { tavily } from "@tavily/core"
 
-export class TavilyProvider implements SearchProvider<any, any> {
-    private client: TavilyClient;
 
-    constructor(client: TavilyClient) {
-        this.client = client;
+
+export interface TavilySearchParams extends BaseParams, TavilySearchOptions { }
+
+export class TavilyProvider implements SearchProvider<TavilySearchParams, any> {
+
+    #client: TavilyClient;
+    constructor(config: TavilyClientOptions) {
+        this.#client = tavily(config)
     }
-    async search(params: any): Promise<any> {
-        const response = await this.client.search(params);
+    async search(params: TavilySearchParams): Promise<any> {
+        const { query } = params;
+        const response = await this.#client.search(query, params);
         return response;
     }
 }
