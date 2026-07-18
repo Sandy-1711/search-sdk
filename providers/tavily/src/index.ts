@@ -1,12 +1,17 @@
 import type { SearchProvider, BaseParams } from "@search-sdk/core";
 import type { TavilyClient, TavilySearchOptions, TavilyClientOptions } from "@tavily/core";
 import { tavily } from "@tavily/core"
+import type { ExtractProvider } from "@search-sdk/core";
+import type { CrawlProvider } from "@search-sdk/core";
 
 
 
 export interface TavilySearchParams extends BaseParams, TavilySearchOptions { }
 
-export class TavilyProvider implements SearchProvider<TavilySearchParams, any> {
+export class TavilyProvider implements SearchProvider<TavilySearchParams, any>,
+    ExtractProvider<TavilyExtractParams, any>,
+    CrawlProvider<TavilyCrawlParams, any>,
+{
 
     #client: TavilyClient;
     constructor(config: TavilyClientOptions) {
