@@ -1,7 +1,7 @@
 import { tavily, type TavilyClient } from "@tavily/core"
-import type { TavilySearchOptions, TavilyClientOptions, TavilyExtractOptions, TavilyCrawlOptions, } from "@tavily/core";
-import type { TavilySearchResponse, TavilyCrawlResponse, TavilyExtractResponse } from "@tavily/core";
-import type { ExtractProvider, SearchProvider, BaseParams, CrawlProvider } from "@search-sdk/core";
+import type { TavilySearchOptions, TavilyClientOptions, TavilyExtractOptions, TavilyCrawlOptions, TavilyResearchOptions } from "@tavily/core";
+import type { TavilySearchResponse, TavilyCrawlResponse, TavilyExtractResponse, TavilyResearchResponse } from "@tavily/core";
+import type { ExtractProvider, SearchProvider, BaseParams, CrawlProvider, ResearchProvider } from "@search-sdk/core";
 
 
 
@@ -13,13 +13,22 @@ interface ExtractBaseParam {
     urls: string[];
 }
 
+interface ResearchBaseParam {
+    input: string;
+}
+
 type ExtractParams = ExtractBaseParam & TavilyExtractOptions;
 type CrawlParams = CrawlBaseParam & TavilyCrawlOptions;
+type ResearchParams = ResearchBaseParam & TavilyResearchOptions;
+type ResearchResult = Awaited<ReturnType<TavilyClient["research"]>>;
 
 
-export class TavilyProvider implements SearchProvider<TavilySearchParams, TavilySearchResponse>,
+export class TavilyProvider
+    implements
+    SearchProvider<TavilySearchParams, TavilySearchResponse>,
     ExtractProvider<ExtractParams, TavilyExtractResponse>,
-    CrawlProvider<CrawlParams, TavilyCrawlResponse> {
+    CrawlProvider<CrawlParams, TavilyCrawlResponse>,
+    ResearchProvider<ResearchParams, ResearchResult> {
 
     #client: TavilyClient;
     constructor(config: TavilyClientOptions) {
@@ -38,6 +47,11 @@ export class TavilyProvider implements SearchProvider<TavilySearchParams, Tavily
     async crawl(params: CrawlParams): Promise<TavilyCrawlResponse> {
         const { url, ...options } = params;
         const response = await this.#client.crawl(url, options);
+        return response;
+    }
+    async research(params: ResearchParams): Promise<ResearchResult> {
+        const { input, ...options } = params;
+        const response = await this.#client.research(input, options);
         return response;
     }
 }
