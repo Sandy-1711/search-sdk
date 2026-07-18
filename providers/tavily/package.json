@@ -1,17 +1,16 @@
 {
-    "name": "@search-sdk/core",
+    "name": "@search-sdk/tavily",
     "version": "0.0.0",
     "private": true,
     "main": "./src/index.ts",
     "types": "./src/index.ts",
     "type": "module",
-    "exports": {
-        ".": {
-            "import": "./src/index.ts",
-            "require": "./src/index.ts"
-        }
+    "dependencies": {
+        "@search-sdk/core": "workspace:^",
+        "@tavily/core": "^0.7.6"
     },
     "devDependencies": {
+        "@search-sdk/typescript-config": "workspace:^",
         "typescript": "^7.0.2"
     }
 }
